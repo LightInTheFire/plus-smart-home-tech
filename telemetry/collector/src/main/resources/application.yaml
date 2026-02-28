@@ -1,0 +1,7 @@
+server:
+  port: 8080
+kafka:
+  topics:
+    sensor-events: "telemetry.sensors.v1"
+    hub-events: "telemetry.hubs.v1"
+  bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:localhost:9092}
