@@ -29,14 +29,6 @@ public class EventServiceImpl implements EventService {
         log.info("Publishing hub event {}", hubAvro);
         byte[] bytes = AvroByteSerializer.serialize(hubAvro);
 
-        String key =
-                switch (event) {
-                    case DeviceAddedEvent d -> d.id();
-                    case DeviceRemovedEvent d -> d.id();
-                    case ScenarioAddedEvent s -> s.name();
-                    case ScenarioRemovedEvent s -> s.name();
-                };
-
         producer.send(new ProducerRecord<>(kafkaTopics.hubEvents(), bytes));
     }
 
@@ -45,15 +37,6 @@ public class EventServiceImpl implements EventService {
         SensorEventAvro sensorAvro = SensorEventMapper.toAvro(event);
         log.info("Publishing sensor event {}", sensorAvro);
         byte[] bytes = AvroByteSerializer.serialize(sensorAvro);
-
-        String key =
-                switch (event) {
-                    case LightSensorEvent e -> e.id();
-                    case MotionSensorEvent e -> e.id();
-                    case ClimateSensorEvent e -> e.id();
-                    case TemperatureSensorEvent e -> e.id();
-                    case SwitchSensorEvent e -> e.id();
-                };
 
         producer.send(new ProducerRecord<>(kafkaTopics.sensorEvents(), bytes));
     }
