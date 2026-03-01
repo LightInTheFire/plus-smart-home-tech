@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableConfigurationProperties({KafkaTopics.class, KafkaProperties.class})
+@EnableConfigurationProperties({ KafkaTopics.class, KafkaProperties.class })
 public class KafkaProducerConfig {
 
     private final KafkaProperties kafkaProperties;
@@ -27,18 +27,9 @@ public class KafkaProducerConfig {
     public Producer<String, byte[]> kafkaProducer() {
         Properties props = new Properties();
 
-        props.put(
-                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                kafkaProperties.bootstrapServers()
-        );
-        props.put(
-                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
-                StringSerializer.class
-        );
-        props.put(
-                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-                ByteArraySerializer.class
-        );
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.bootstrapServers());
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ByteArraySerializer.class);
 
         producer = new KafkaProducer<>(props);
         return producer;

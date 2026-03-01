@@ -3,9 +3,5 @@ package ru.yandex.practicum.model.hub;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record ScenarioCondition(
-        @NotBlank String sensorId,
-        @NotNull ConditionType type,
-        @NotNull ConditionOperation operation,
-        Object value) {
-}
+public record ScenarioCondition(@NotBlank String sensorId, @NotNull ConditionType type,
+    @NotNull ConditionOperation operation, Object value) {}

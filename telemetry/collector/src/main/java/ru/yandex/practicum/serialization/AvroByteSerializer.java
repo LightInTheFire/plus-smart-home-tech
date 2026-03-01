@@ -11,14 +11,13 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class AvroByteSerializer {
+
     public <T extends SpecificRecordBase> byte[] serialize(T record) {
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            SpecificDatumWriter<T> writer = new SpecificDatumWriter<>(
-                    record.getSchema()
-            );
+            SpecificDatumWriter<T> writer = new SpecificDatumWriter<>(record.getSchema());
             BinaryEncoder encoder = EncoderFactory.get()
-                    .binaryEncoder(out,null);
-            writer.write(record,encoder);
+                .binaryEncoder(out, null);
+            writer.write(record, encoder);
             encoder.flush();
             return out.toByteArray();
         } catch (Exception e) {

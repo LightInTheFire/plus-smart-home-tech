@@ -8,10 +8,8 @@ import jakarta.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("DEVICE_REMOVED")
-public record DeviceRemovedEvent(
-        @NotBlank String hubId, @NotNull Instant timestamp, @NotBlank String id)
-        implements
-            HubEvent {
+public record DeviceRemovedEvent(@NotBlank String hubId, @NotNull Instant timestamp, @NotBlank String id)
+    implements HubEvent {
 
     @Override
     public HubEventType type() {
