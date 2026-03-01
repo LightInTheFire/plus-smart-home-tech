@@ -26,7 +26,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public void publishHubEvent(HubEvent event) {
         HubEventAvro hubAvro = HubEventMapper.toAvro(event);
-        log.info("Publishing hub event {}", hubAvro);
+        log.info("Publishing hub event {}",hubAvro);
         byte[] bytes = AvroByteSerializer.serialize(hubAvro);
 
         producer.send(new ProducerRecord<>(kafkaTopics.hubEvents(), bytes));
@@ -35,7 +35,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public void publishSensorEvent(SensorEvent event) {
         SensorEventAvro sensorAvro = SensorEventMapper.toAvro(event);
-        log.info("Publishing sensor event {}", sensorAvro);
+        log.info("Publishing sensor event {}",sensorAvro);
         byte[] bytes = AvroByteSerializer.serialize(sensorAvro);
 
         producer.send(new ProducerRecord<>(kafkaTopics.sensorEvents(), bytes));

@@ -16,7 +16,8 @@ public record LightSensorEvent(
         @NotNull Instant timestamp,
         @Min(0) @Max(100) int linkQuality,
         @Min(0) int luminosity)
-        implements SensorEvent {
+        implements
+            SensorEvent {
 
     @Override
     public SensorEventType type() {

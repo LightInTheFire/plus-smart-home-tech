@@ -14,7 +14,8 @@ public record TemperatureSensorEvent(
         @NotNull Instant timestamp,
         int temperatureC,
         int temperatureF)
-        implements SensorEvent {
+        implements
+            SensorEvent {
 
     @Override
     public SensorEventType type() {

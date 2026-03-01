@@ -24,13 +24,13 @@ public class EventController {
 
     @PostMapping("/sensors")
     public void saveSensorEvent(@Valid @RequestBody SensorEvent sensorEvent) {
-        log.info("Saving sensor event {}", sensorEvent);
+        log.info("Saving sensor event {}",sensorEvent);
         eventService.publishSensorEvent(sensorEvent);
     }
 
     @PostMapping("/hubs")
     public void saveHubEvent(@Valid @RequestBody HubEvent hubEvent) {
-        log.info("Saving hub event {}", hubEvent.toString());
+        log.info("Saving hub event {}",hubEvent.toString());
         eventService.publishHubEvent(hubEvent);
     }
 }

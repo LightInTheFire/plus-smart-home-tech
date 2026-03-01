@@ -16,7 +16,8 @@ public record ClimateSensorEvent(
         int temperatureC,
         @Min(0) int humidity,
         @Min(0) int co2Level)
-        implements SensorEvent {
+        implements
+            SensorEvent {
 
     @Override
     public SensorEventType type() {

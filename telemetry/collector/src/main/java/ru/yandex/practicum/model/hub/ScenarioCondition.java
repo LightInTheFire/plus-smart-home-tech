@@ -7,4 +7,5 @@ public record ScenarioCondition(
         @NotBlank String sensorId,
         @NotNull ConditionType type,
         @NotNull ConditionOperation operation,
-        Object value) {}
+        Object value) {
+}

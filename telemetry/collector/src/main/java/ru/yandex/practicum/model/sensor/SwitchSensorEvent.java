@@ -9,8 +9,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("SWITCH_SENSOR_EVENT")
 public record SwitchSensorEvent(
-        @NotBlank String id, @NotBlank String hubId, @NotNull Instant timestamp, boolean state)
-        implements SensorEvent {
+        @NotBlank String id, @NotBlank String hubId, @NotNull Instant timestamp,
+        boolean state)
+        implements
+            SensorEvent {
 
     @Override
     public SensorEventType type() {

@@ -13,7 +13,8 @@ public record DeviceAddedEvent(
         @NotNull Instant timestamp,
         @NotBlank String id,
         @NotNull DeviceType deviceType)
-        implements HubEvent {
+        implements
+            HubEvent {
 
     @Override
     public HubEventType type() {

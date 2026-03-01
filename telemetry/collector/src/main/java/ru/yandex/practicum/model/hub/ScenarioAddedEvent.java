@@ -17,7 +17,8 @@ public record ScenarioAddedEvent(
         @NotBlank String name,
         @Valid @NotEmpty List<ScenarioCondition> conditions,
         @Valid @NotEmpty List<DeviceAction> actions)
-        implements HubEvent {
+        implements
+            HubEvent {
 
     @Override
     public HubEventType type() {

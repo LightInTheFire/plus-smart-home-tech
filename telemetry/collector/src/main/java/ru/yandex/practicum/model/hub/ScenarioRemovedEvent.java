@@ -9,8 +9,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("SCENARIO_REMOVED")
 public record ScenarioRemovedEvent(
-        @NotBlank String hubId, @NotNull Instant timestamp, @NotBlank String name)
-        implements HubEvent {
+        @NotBlank String hubId, @NotNull Instant timestamp,
+        @NotBlank String name)
+        implements
+            HubEvent {
 
     @Override
     public HubEventType type() {
