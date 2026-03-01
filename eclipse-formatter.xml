@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<profiles version="21">
+    <profile kind="CodeFormatterProfile" name="java-style" version="21">
+
+        <setting id="org.eclipse.jdt.core.formatter.tabulation.char" value="space"/>
+        <setting id="org.eclipse.jdt.core.formatter.tabulation.size" value="4"/>
+        <setting id="org.eclipse.jdt.core.formatter.indentation.size" value="4"/>
+
+        <setting id="org.eclipse.jdt.core.formatter.lineSplit" value="80"/>
+        <setting id="org.eclipse.jdt.core.formatter.join_wrapped_lines" value="true"/>
+
+        <setting id="org.eclipse.jdt.core.formatter.alignment_for_selector_in_method_invocation" value="16"/>
+
+        <setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_method_invocation" value="16"/>
+
+        <setting id="org.eclipse.jdt.core.formatter.alignment_for_parameters_in_method_declaration" value="16"/>
+
+        <setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_allocation_expression" value="16"/>
+        <setting id="org.eclipse.jdt.core.formatter.wrap_before_dot_in_method_invocation" value="true"/>
+
+        <setting id="org.eclipse.jdt.core.formatter.wrap_before_binary_operator" value="true"/>
+
+        <setting id="org.eclipse.jdt.core.formatter.alignment_for_conditional_expression" value="80"/>
+
+        <setting id="org.eclipse.jdt.core.formatter.alignment_for_lambda_expression" value="16"/>
+
+        <setting id="org.eclipse.jdt.core.formatter.alignment_for_expressions_in_switch_case_with_arrow" value="16"/>
+
+        <setting id="org.eclipse.jdt.core.formatter.keep_simple_if_on_one_line" value="false"/>
+        <setting id="org.eclipse.jdt.core.formatter.keep_simple_for_body_on_same_line" value="false"/>
+
+        <setting id="org.eclipse.jdt.core.formatter.brace_position_for_method_declaration" value="end_of_line"/>
+        <setting id="org.eclipse.jdt.core.formatter.brace_position_for_type_declaration" value="end_of_line"/>
+        <setting id="org.eclipse.jdt.core.formatter.brace_position_for_blocks" value="end_of_line"/>
+        <setting id="org.eclipse.jdt.core.formatter.wrap_outer_expressions_when_nested" value="true"/>
+        <setting id="org.eclipse.jdt.core.formatter.parentheses_positions_in_method_invocation" value="separate_lines_if_wrapped"/>
+
+        <setting id="org.eclipse.jdt.core.formatter.insert_space_after_comma_in_method_invocation_arguments" value="true"/>
+        <setting id="org.eclipse.jdt.core.formatter.insert_space_after_comma_in_method_declaration_parameters" value="true"/>
+
+    </profile>
+</profiles>
