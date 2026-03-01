@@ -6,22 +6,23 @@ import org.apache.avro.io.BinaryEncoder;
 import org.apache.avro.io.EncoderFactory;
 import org.apache.avro.specific.SpecificDatumWriter;
 import org.apache.avro.specific.SpecificRecordBase;
+import org.apache.kafka.common.serialization.Serializer;
 
-import lombok.experimental.UtilityClass;
+public class EventAvroSerializer implements Serializer<SpecificRecordBase> {
 
-@UtilityClass
-public class AvroByteSerializer {
-
-    public <T extends SpecificRecordBase> byte[] serialize(T record) {
+    @Override
+    public byte[] serialize(String topic, SpecificRecordBase record) {
+        if (record == null) return null;
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            SpecificDatumWriter<T> writer = new SpecificDatumWriter<>(record.getSchema());
+            SpecificDatumWriter<SpecificRecordBase> writer = new SpecificDatumWriter<>(record.getSchema());
             BinaryEncoder encoder = EncoderFactory.get()
                 .binaryEncoder(out, null);
             writer.write(record, encoder);
             encoder.flush();
             return out.toByteArray();
         } catch (Exception e) {
-            throw new RuntimeException("Avro serialization failed", e);
+            throw new RuntimeException("Avro serialization failed for topic " + topic, e);
         }
     }
+
 }

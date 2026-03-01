@@ -7,8 +7,8 @@ import ru.yandex.practicum.mapper.HubEventMapper;
 import ru.yandex.practicum.mapper.SensorEventMapper;
 import ru.yandex.practicum.model.hub.*;
 import ru.yandex.practicum.model.sensor.*;
-import ru.yandex.practicum.serialization.AvroByteSerializer;
 
+import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.stereotype.Service;
@@ -21,41 +21,37 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
 
-    private final Producer<String, byte[]> producer;
+    private final Producer<String, SpecificRecordBase> producer;
     private final KafkaTopics kafkaTopics;
 
     @Override
     public void publishHubEvent(HubEvent event) {
         HubEventAvro hubAvro = HubEventMapper.toAvro(event);
         log.info("Publishing hub event {}", hubAvro);
-        byte[] bytes = AvroByteSerializer.serialize(hubAvro);
 
-        String key =
-                switch (event) {
-                    case DeviceAddedEvent d -> d.id();
-                    case DeviceRemovedEvent d -> d.id();
-                    case ScenarioAddedEvent s -> s.name();
-                    case ScenarioRemovedEvent s -> s.name();
-                };
+        String key = switch (event) {
+            case DeviceAddedEvent d -> d.hubId();
+            case DeviceRemovedEvent d -> d.hubId();
+            case ScenarioAddedEvent s -> s.hubId();
+            case ScenarioRemovedEvent s -> s.hubId();
+        };
 
-        producer.send(new ProducerRecord<>(kafkaTopics.hubEvents(), bytes));
+        producer.send(new ProducerRecord<>(kafkaTopics.hubEvents(), key, hubAvro));
     }
 
     @Override
     public void publishSensorEvent(SensorEvent event) {
         SensorEventAvro sensorAvro = SensorEventMapper.toAvro(event);
         log.info("Publishing sensor event {}", sensorAvro);
-        byte[] bytes = AvroByteSerializer.serialize(sensorAvro);
 
-        String key =
-                switch (event) {
-                    case LightSensorEvent e -> e.id();
-                    case MotionSensorEvent e -> e.id();
-                    case ClimateSensorEvent e -> e.id();
-                    case TemperatureSensorEvent e -> e.id();
-                    case SwitchSensorEvent e -> e.id();
-                };
+        String key = switch (event) {
+            case LightSensorEvent e -> e.hubId();
+            case MotionSensorEvent e -> e.hubId();
+            case ClimateSensorEvent e -> e.hubId();
+            case TemperatureSensorEvent e -> e.hubId();
+            case SwitchSensorEvent e -> e.hubId();
+        };
 
-        producer.send(new ProducerRecord<>(kafkaTopics.sensorEvents(), bytes));
+        producer.send(new ProducerRecord<>(kafkaTopics.sensorEvents(), key, sensorAvro));
     }
 }

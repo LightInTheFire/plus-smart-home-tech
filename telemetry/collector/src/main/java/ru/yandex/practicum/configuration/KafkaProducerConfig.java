@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import jakarta.annotation.PreDestroy;
 
+import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -19,10 +20,10 @@ import lombok.RequiredArgsConstructor;
 public class KafkaProducerConfig {
 
     private final KafkaProperties kafkaProperties;
-    private KafkaProducer<String, byte[]> producer;
+    private KafkaProducer<String, SpecificRecordBase> producer;
 
     @Bean
-    public Producer<String, byte[]> kafkaProducer() {
+    public Producer<String, SpecificRecordBase> kafkaProducer() {
         Properties props = new Properties();
 
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.bootstrapServers());
