@@ -132,6 +132,7 @@
                         <trimTrailingWhitespace/>
                         <formatAnnotations/>
                         <endWithNewline/>
+                        <ratchetFrom>NONE</ratchetFrom>
                     </java>
                 </configuration>
 
