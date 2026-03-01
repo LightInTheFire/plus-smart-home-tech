@@ -7,27 +7,22 @@ import ru.yandex.practicum.mapper.HubEventMapper;
 import ru.yandex.practicum.mapper.SensorEventMapper;
 import ru.yandex.practicum.model.hub.*;
 import ru.yandex.practicum.model.sensor.*;
+import ru.yandex.practicum.util.EventTimestampKafkaProducer;
 
-import org.apache.avro.specific.SpecificRecordBase;
-import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
 
-    private final Producer<String, SpecificRecordBase> producer;
+    private final EventTimestampKafkaProducer producer;
     private final KafkaTopics kafkaTopics;
 
     @Override
     public void publishHubEvent(HubEvent event) {
         HubEventAvro hubAvro = HubEventMapper.toAvro(event);
-        log.info("Publishing hub event {}", hubAvro);
 
         String key = switch (event) {
             case DeviceAddedEvent d -> d.hubId();
@@ -36,13 +31,15 @@ public class EventServiceImpl implements EventService {
             case ScenarioRemovedEvent s -> s.hubId();
         };
 
-        producer.send(new ProducerRecord<>(kafkaTopics.hubEvents(), key, hubAvro));
+        long timestamp = event.timestamp()
+            .toEpochMilli();
+
+        producer.send(kafkaTopics.hubEvents(), key, timestamp, hubAvro);
     }
 
     @Override
     public void publishSensorEvent(SensorEvent event) {
         SensorEventAvro sensorAvro = SensorEventMapper.toAvro(event);
-        log.info("Publishing sensor event {}", sensorAvro);
 
         String key = switch (event) {
             case LightSensorEvent e -> e.hubId();
@@ -52,6 +49,9 @@ public class EventServiceImpl implements EventService {
             case SwitchSensorEvent e -> e.hubId();
         };
 
-        producer.send(new ProducerRecord<>(kafkaTopics.sensorEvents(), key, sensorAvro));
+        long timestamp = event.timestamp()
+            .toEpochMilli();
+
+        producer.send(kafkaTopics.sensorEvents(), key, timestamp, sensorAvro);
     }
 }

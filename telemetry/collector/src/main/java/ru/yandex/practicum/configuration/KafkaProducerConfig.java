@@ -4,9 +4,8 @@ import java.util.Properties;
 
 import jakarta.annotation.PreDestroy;
 
-import org.apache.avro.specific.SpecificRecordBase;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.Producer;
+import ru.yandex.practicum.util.EventTimestampKafkaProducer;
+
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -20,17 +19,17 @@ import lombok.RequiredArgsConstructor;
 public class KafkaProducerConfig {
 
     private final KafkaProperties kafkaProperties;
-    private KafkaProducer<String, SpecificRecordBase> producer;
+    private EventTimestampKafkaProducer producer;
 
     @Bean
-    public Producer<String, SpecificRecordBase> kafkaProducer() {
+    public EventTimestampKafkaProducer kafkaProducer() {
         Properties props = new Properties();
 
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.bootstrapServers());
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaProperties.keySerializerClass());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, kafkaProperties.valueSerializerClass());
 
-        producer = new KafkaProducer<>(props);
+        producer = new EventTimestampKafkaProducer(props);
         return producer;
     }
 
