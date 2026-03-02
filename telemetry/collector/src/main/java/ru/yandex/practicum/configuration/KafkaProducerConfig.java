@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableConfigurationProperties({ KafkaTopics.class, KafkaProperties.class })
+@EnableConfigurationProperties({KafkaTopics.class, KafkaProperties.class})
 public class KafkaProducerConfig {
 
     private final KafkaProperties kafkaProperties;
