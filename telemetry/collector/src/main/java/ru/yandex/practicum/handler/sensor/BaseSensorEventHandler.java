@@ -1,11 +1,11 @@
 package ru.yandex.practicum.handler.sensor;
 
-import ru.yandex.practicum.kafka.KafkaTopics;
 import ru.yandex.practicum.grpc.telemetry.event.SensorEventProto;
+import ru.yandex.practicum.kafka.EventTimestampKafkaProducer;
+import ru.yandex.practicum.kafka.KafkaTopics;
 import ru.yandex.practicum.kafka.telemetry.event.SensorEventAvro;
 import ru.yandex.practicum.mapper.SensorEventMapper;
 import ru.yandex.practicum.util.Converter;
-import ru.yandex.practicum.kafka.EventTimestampKafkaProducer;
 
 import lombok.RequiredArgsConstructor;
 
