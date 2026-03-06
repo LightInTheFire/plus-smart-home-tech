@@ -1,1 +1,3 @@
+hub-router/scripts/windows/*.bat text eol=crlf
+hub-router/*.bat text eol=crlf
 * text=auto eol=lf
