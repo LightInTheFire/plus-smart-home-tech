@@ -1,4 +1,4 @@
-package ru.yandex.practicum.util;
+package ru.yandex.practicum.kafka;
 
 import java.util.Properties;
 

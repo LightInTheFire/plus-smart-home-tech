@@ -1,10 +1,8 @@
-package ru.yandex.practicum.configuration;
+package ru.yandex.practicum.kafka;
 
 import java.util.Properties;
 
 import jakarta.annotation.PreDestroy;
-
-import ru.yandex.practicum.util.EventTimestampKafkaProducer;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
