@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AggregatorRunner implements CommandLineRunner {
+public class AggregatorProcessor implements CommandLineRunner {
 
     private final KafkaTopics kafkaTopics;
     private final KafkaProperties kafkaProperties;
