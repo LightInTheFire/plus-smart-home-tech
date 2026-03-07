@@ -2,6 +2,8 @@ server:
   port: 10091
 
 spring:
+  config:
+    import: classpath:config/kafka.yaml
   sql:
     init:
       mode: always
