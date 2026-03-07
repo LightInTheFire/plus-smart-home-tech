@@ -6,7 +6,6 @@ import jakarta.annotation.PreDestroy;
 
 import ru.yandex.practicum.kafka.HubEventConsumerProperties;
 import ru.yandex.practicum.kafka.KafkaProperties;
-import ru.yandex.practicum.kafka.SnapshotConsumerProperties;
 import ru.yandex.practicum.kafka.telemetry.event.HubEventAvro;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
