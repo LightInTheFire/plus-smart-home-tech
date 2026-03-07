@@ -2,6 +2,7 @@ package ru.yandex.practicum.serialization;
 
 import java.io.ByteArrayInputStream;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.avro.Schema;
 import org.apache.avro.io.BinaryDecoder;
 import org.apache.avro.io.DatumReader;
@@ -10,6 +11,7 @@ import org.apache.avro.specific.SpecificDatumReader;
 import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.common.serialization.Deserializer;
 
+@Slf4j
 public class BaseAvroDeserializer<T extends SpecificRecordBase> implements Deserializer<T> {
 
     protected final Schema schema;
@@ -33,7 +35,8 @@ public class BaseAvroDeserializer<T extends SpecificRecordBase> implements Deser
             BinaryDecoder decoder = decoderFactory.binaryDecoder(inputStream, null);
             return datumReader.read(null, decoder);
         } catch (Exception e) {
-            throw new RuntimeException("Avro deserialization failed for topic " + topic, e);
+            log.error("Avro deserialization failed for topic {}", topic, e);
+            return null;
         }
     }
 }
