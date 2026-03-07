@@ -11,7 +11,7 @@ kafka:
     value-serializer-class: ru.yandex.practicum.serialization.AvroSerializer
   consumer:
     key-deserializer-class: org.apache.kafka.common.serialization.StringDeserializer
-    value-deserializer-class: ru.yandex.practicum.serialization.SensorEventDeserializer
+    value-deserializer-class: ru.yandex.practicum.serialization.SensorEventAvroDeserializer
     client-id: "AggregatorConsumer"
     group-id: "SensorsAggregationGroup"
     max-poll-records: 25
