@@ -3,7 +3,7 @@ server:
 
 spring:
   config:
-    import: classpath:config/kafka.yaml
+    import: [ classpath:config/kafka.yaml, classpath:config/hub-router-client.yaml ]
   sql:
     init:
       mode: always

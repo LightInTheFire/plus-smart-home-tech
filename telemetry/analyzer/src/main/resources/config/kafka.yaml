@@ -2,7 +2,7 @@ kafka:
   bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:localhost:9092}
   consumer:
     snapshot:
-      topics: ["telemetry.snapshots.v1"]
+      topics: [ "telemetry.snapshots.v1" ]
       keyDeserializerClass: org.apache.kafka.common.serialization.StringDeserializer
       valueDeserializerClass: ru.yandex.practicum.serialization.SnapshotAvroDeserializer
       clientId: snapshot-consumer
@@ -11,7 +11,7 @@ kafka:
       consumeTimeout: 5000
 
     hub-event:
-      topics: ["telemetry.hubs.v1"]
+      topics: [ "telemetry.hubs.v1" ]
       keyDeserializerClass: org.apache.kafka.common.serialization.StringDeserializer
       valueDeserializerClass: ru.yandex.practicum.serialization.HubEventAvroDeserializer
       clientId: hub-event-consumer
