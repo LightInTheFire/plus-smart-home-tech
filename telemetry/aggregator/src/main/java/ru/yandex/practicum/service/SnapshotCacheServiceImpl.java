@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SnapshotServiceImpl implements SnapshotService {
+public class SnapshotCacheServiceImpl implements SnapshotCacheService {
 
     private final Map<String, SensorsSnapshotAvro> hubsSensorsSnapshotsMap = new HashMap<>();
 
