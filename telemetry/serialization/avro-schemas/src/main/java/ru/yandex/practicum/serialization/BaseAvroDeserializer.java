@@ -1,7 +1,5 @@
 package ru.yandex.practicum.serialization;
 
-import java.io.ByteArrayInputStream;
-
 import org.apache.avro.Schema;
 import org.apache.avro.io.BinaryDecoder;
 import org.apache.avro.io.DatumReader;
@@ -32,8 +30,8 @@ public class BaseAvroDeserializer<T extends SpecificRecordBase> implements Deser
     @Override
     public T deserialize(String topic, byte[] data) {
         if (data == null) return null;
-        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(data)) {
-            BinaryDecoder decoder = decoderFactory.binaryDecoder(inputStream, null);
+        try {
+            BinaryDecoder decoder = decoderFactory.binaryDecoder(data, null);
             return datumReader.read(null, decoder);
         } catch (Exception e) {
             log.error("Avro deserialization failed for topic {}", topic, e);
