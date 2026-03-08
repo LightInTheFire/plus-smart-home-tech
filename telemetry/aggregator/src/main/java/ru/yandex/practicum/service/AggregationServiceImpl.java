@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class AggregationServiceImpl implements AggregationService {
 
-    private final SnapshotService snapshotService;
+    private final SnapshotCacheService snapshotService;
     private final KafkaProducer<String, SpecificRecordBase> producer;
     private final KafkaTopics kafkaTopics;
 
@@ -31,6 +31,7 @@ public class AggregationServiceImpl implements AggregationService {
     }
 
     private void send(SensorsSnapshotAvro sensorsSnapshotAvro) {
+
         ProducerRecord<String, SpecificRecordBase> record = new ProducerRecord<>(
             kafkaTopics.sensorSnapshots(),
             null,
