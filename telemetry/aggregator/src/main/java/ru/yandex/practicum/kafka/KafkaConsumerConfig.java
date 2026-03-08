@@ -24,7 +24,7 @@ public class KafkaConsumerConfig {
     private final KafkaProperties kafkaProperties;
     private KafkaConsumer<String, SensorEventAvro> consumer;
 
-    @Bean
+    @Bean(destroyMethod = "")
     public KafkaConsumer<String, SensorEventAvro> consumer() {
         log.info("Initializing kafka consumer");
         Properties props = new Properties();

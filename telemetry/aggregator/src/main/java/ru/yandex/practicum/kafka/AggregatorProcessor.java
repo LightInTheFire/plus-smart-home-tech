@@ -28,6 +28,10 @@ public class AggregatorProcessor implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        new Thread(this::consume, "sensor-event-consumer").start();
+    }
+
+    private void consume() {
         try {
             log.info("Subscribing consumer to topic {}", kafkaTopics.sensorEvents());
             consumer.subscribe(List.of(kafkaTopics.sensorEvents()));
@@ -42,7 +46,11 @@ public class AggregatorProcessor implements CommandLineRunner {
                 }
 
                 for (ConsumerRecord<String, SensorEventAvro> record : records) {
-                    aggregationService.handleEvent(record.value());
+                    try {
+                        aggregationService.handleEvent(record.value());
+                    } catch (Exception e) {
+                        log.error("Error while processing sensor event {}", record.value(), e);
+                    }
                 }
 
                 consumer.commitAsync();
@@ -56,5 +64,4 @@ public class AggregatorProcessor implements CommandLineRunner {
             }
         }
     }
-
 }

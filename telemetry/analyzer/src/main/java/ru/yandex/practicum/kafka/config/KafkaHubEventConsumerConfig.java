@@ -27,7 +27,7 @@ public class KafkaHubEventConsumerConfig {
     private final HubEventConsumerProperties consumerProperties;
     private KafkaConsumer<String, HubEventAvro> consumer;
 
-    @Bean
+    @Bean(destroyMethod = "")
     public KafkaConsumer<String, HubEventAvro> hubEventConsumer() {
         log.info("Initializing hub event kafka consumer");
         Properties props = new Properties();
