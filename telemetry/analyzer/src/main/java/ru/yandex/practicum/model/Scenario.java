@@ -5,13 +5,15 @@ import java.util.Map;
 
 import jakarta.persistence.*;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "scenarios")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Scenario {
 
     @Id
