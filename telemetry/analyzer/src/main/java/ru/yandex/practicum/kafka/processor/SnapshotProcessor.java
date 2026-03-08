@@ -2,7 +2,7 @@ package ru.yandex.practicum.kafka.processor;
 
 import java.time.Duration;
 
-import ru.yandex.practicum.kafka.HubEventConsumerProperties;
+import ru.yandex.practicum.kafka.SnapshotConsumerProperties;
 import ru.yandex.practicum.kafka.telemetry.event.SensorsSnapshotAvro;
 import ru.yandex.practicum.service.snapshot.SnapshotService;
 
@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SnapshotProcessor implements ApplicationRunner {
 
     private final KafkaConsumer<String, SensorsSnapshotAvro> consumer;
-    private final HubEventConsumerProperties properties;
+    private final SnapshotConsumerProperties properties;
     private final SnapshotService snapshotService;
 
     @Override
