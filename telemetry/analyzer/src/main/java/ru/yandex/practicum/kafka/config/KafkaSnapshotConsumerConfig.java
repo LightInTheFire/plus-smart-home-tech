@@ -27,7 +27,7 @@ public class KafkaSnapshotConsumerConfig {
     private final SnapshotConsumerProperties consumerProperties;
     private KafkaConsumer<String, SensorsSnapshotAvro> consumer;
 
-    @Bean
+    @Bean(destroyMethod = "")
     public KafkaConsumer<String, SensorsSnapshotAvro> snapshotConsumer() {
         log.info("Initializing snapshot kafka consumer");
         Properties props = new Properties();
