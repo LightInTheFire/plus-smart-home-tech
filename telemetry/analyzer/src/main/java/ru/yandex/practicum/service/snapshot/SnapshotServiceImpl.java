@@ -13,6 +13,7 @@ import ru.yandex.practicum.repository.ScenarioRepository;
 import ru.yandex.practicum.service.hub.HubRouterClient;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.protobuf.Timestamp;
 
@@ -28,6 +29,7 @@ public class SnapshotServiceImpl implements SnapshotService {
     private final ScenarioRepository scenarioRepository;
 
     @Override
+    @Transactional
     public void analyzeSnapshot(SensorsSnapshotAvro snapshot) {
         String hubId = snapshot.getHubId();
         List<Scenario> scenarios = scenarioRepository.findByHubId(hubId);
@@ -79,6 +81,9 @@ public class SnapshotServiceImpl implements SnapshotService {
 
     private DeviceActionRequest buildActionRequest(Scenario scenario, Map.Entry<String, Action> entry,
         Instant timestamp) {
+        int value = entry.getValue()
+            .getValue() != null ? entry.getValue()
+                .getValue() : 0;
 
         DeviceActionProto actionProto = DeviceActionProto.newBuilder()
             .setSensorId(entry.getKey())
@@ -87,9 +92,7 @@ public class SnapshotServiceImpl implements SnapshotService {
                     entry.getValue()
                         .getType()
                         .name()))
-            .setValue(
-                entry.getValue()
-                    .getValue())
+            .setValue(value)
             .build();
 
         return DeviceActionRequest.newBuilder()

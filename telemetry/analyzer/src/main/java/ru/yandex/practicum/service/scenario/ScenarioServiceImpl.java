@@ -49,10 +49,14 @@ public class ScenarioServiceImpl implements ScenarioService {
                     .name(scenarioAddedEventAvro.getName())
                     .build());
 
-        scenario.getActions()
-            .clear();
-        scenario.getConditions()
-            .clear();
+        if (scenario.getActions() != null) {
+            scenario.getActions()
+                .clear();
+        }
+        if (scenario.getConditions() != null) {
+            scenario.getConditions()
+                .clear();
+        }
 
         List<DeviceActionAvro> actionsAvro = scenarioAddedEventAvro.getActions();
         List<ScenarioConditionAvro> conditionsAvro = scenarioAddedEventAvro.getConditions();

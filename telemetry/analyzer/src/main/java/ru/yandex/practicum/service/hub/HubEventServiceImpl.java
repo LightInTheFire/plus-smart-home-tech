@@ -25,7 +25,9 @@ public class HubEventServiceImpl implements HubEventService {
 
     @Override
     public void handle(HubEventAvro hubEvent) {
-        if (hubEventHandlers.containsKey(hubEvent.getClass())) {
+        if (hubEventHandlers.containsKey(
+            hubEvent.getPayload()
+                .getClass())) {
             hubEventHandlers.get(
                 hubEvent.getPayload()
                     .getClass())
