@@ -24,5 +24,6 @@ public abstract class BaseSensorEventHandler implements SensorEventHandler {
             eventProto.getHubId(),
             Converter.timestampToMillis(eventProto.getTimestamp()),
             eventAvro);
+        producer.flush();
     }
 }

@@ -24,5 +24,6 @@ public abstract class BaseHubEventHandler implements HubEventHandler {
             eventProto.getHubId(),
             Converter.timestampToMillis(eventProto.getTimestamp()),
             eventAvro);
+        producer.flush();
     }
 }
