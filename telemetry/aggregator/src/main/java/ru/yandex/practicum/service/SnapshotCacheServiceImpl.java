@@ -22,6 +22,10 @@ public class SnapshotCacheServiceImpl implements SnapshotCacheService {
 
     @Override
     public Optional<SensorsSnapshotAvro> updateState(SensorEventAvro event) {
+        if (event == null) {
+            return Optional.empty();
+        }
+
         SensorsSnapshotAvro sensorsSnapshotAvro = hubsSensorsSnapshotsMap.computeIfAbsent(
             event.getHubId(),
             hubId -> SensorsSnapshotAvro.newBuilder()
