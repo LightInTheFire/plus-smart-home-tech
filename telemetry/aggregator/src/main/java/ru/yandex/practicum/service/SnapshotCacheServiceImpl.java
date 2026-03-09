@@ -53,7 +53,6 @@ public class SnapshotCacheServiceImpl implements SnapshotCacheService {
             .put(event.getId(), newState);
         sensorsSnapshotAvro.setTimestamp(event.getTimestamp());
 
-
         return Optional.of(sensorsSnapshotAvro);
     }
 }
