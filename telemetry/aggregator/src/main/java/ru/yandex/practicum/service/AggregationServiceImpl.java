@@ -51,6 +51,6 @@ public class AggregationServiceImpl implements AggregationService {
                     sensorsSnapshotAvro.getHubId());
             }
         });
-
+        producer.flush();
     }
 }
