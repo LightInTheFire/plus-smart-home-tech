@@ -77,6 +77,6 @@ public class SensorServiceImpl implements SensorService {
             .ifPresentOrElse(
                 sensor -> log.info("Deleting sensor with id {}", sensorId),
                 () -> log.warn("Sensor with id {} not found", sensorId));
-        sensorRepository.deleteById(sensorId);
+        sensorRepository.deleteByIdAndHubId(sensorId, hubId);
     }
 }
