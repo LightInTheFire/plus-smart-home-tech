@@ -1,46 +1,57 @@
 package ru.yandex.practicum.mapper;
 
+import java.time.Instant;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Supplier;
+
+import ru.yandex.practicum.grpc.telemetry.event.*;
 import ru.yandex.practicum.kafka.telemetry.event.*;
-import ru.yandex.practicum.model.sensor.*;
 
-import lombok.experimental.UtilityClass;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 
-@UtilityClass
-public class SensorEventMapper {
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+public interface SensorEventMapper {
 
-    public SensorEventAvro toAvro(SensorEvent event) {
-        SensorEventAvro.Builder builder = SensorEventAvro.newBuilder()
-            .setId(event.id())
-            .setHubId(event.hubId())
-            .setTimestamp(event.timestamp());
+    ClimateSensorAvro map(ClimateSensorProto proto);
 
-        builder.setPayload(switch (event) {
-            case ClimateSensorEvent e -> ClimateSensorAvro.newBuilder()
-                .setTemperatureC(e.temperatureC())
-                .setHumidity(e.humidity())
-                .setCo2Level(e.co2Level())
-                .build();
-            case LightSensorEvent e -> LightSensorAvro.newBuilder()
-                .setLinkQuality(e.linkQuality())
-                .setLuminosity(e.luminosity())
-                .build();
-            case MotionSensorEvent e -> MotionSensorAvro.newBuilder()
-                .setLinkQuality(e.linkQuality())
-                .setMotion(e.motion())
-                .setVoltage(e.voltage())
-                .build();
-            case SwitchSensorEvent e -> SwitchSensorAvro.newBuilder()
-                .setState(e.state())
-                .build();
-            case TemperatureSensorEvent e -> TemperatureSensorAvro.newBuilder()
-                .setId(e.id())
-                .setHubId(e.hubId())
-                .setTimestamp(e.timestamp())
-                .setTemperatureC(e.temperatureC())
-                .setTemperatureF(e.temperatureF())
-                .build();
-        });
+    LightSensorAvro map(LightSensorProto proto);
 
-        return builder.build();
+    MotionSensorAvro map(MotionSensorProto proto);
+
+    SwitchSensorAvro map(SwitchSensorProto proto);
+
+    @Mapping(target = "timestamp", expression = "java(mapTimestamp(proto))")
+    TemperatureSensorAvro map(SensorEventProto proto, TemperatureSensorProto sensor);
+
+    @Mapping(target = "timestamp", expression = "java(mapTimestamp(proto))")
+    @Mapping(target = "payload", expression = "java(mapPayload(proto))")
+    SensorEventAvro map(SensorEventProto proto);
+
+    default Instant mapTimestamp(SensorEventProto proto) {
+        return Instant.ofEpochSecond(
+            proto.getTimestamp()
+                .getSeconds(),
+            proto.getTimestamp()
+                .getNanos());
+    }
+
+    default Object mapPayload(SensorEventProto proto) {
+        Map<SensorEventProto.PayloadCase, Supplier<Object>> handlers = Map.of(
+            SensorEventProto.PayloadCase.CLIMATE_SENSOR,
+            () -> map(proto.getClimateSensor()),
+            SensorEventProto.PayloadCase.LIGHT_SENSOR,
+            () -> map(proto.getLightSensor()),
+            SensorEventProto.PayloadCase.MOTION_SENSOR,
+            () -> map(proto.getMotionSensor()),
+            SensorEventProto.PayloadCase.SWITCH_SENSOR,
+            () -> map(proto.getSwitchSensor()),
+            SensorEventProto.PayloadCase.TEMPERATURE_SENSOR,
+            () -> map(proto, proto.getTemperatureSensor()));
+        return Optional.ofNullable(handlers.get(proto.getPayloadCase()))
+            .map(Supplier::get)
+            .orElseThrow(() -> new IllegalArgumentException("Unknown payload type: " + proto.getPayloadCase()));
     }
 }

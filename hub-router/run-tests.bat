@@ -1,6 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
 
+chcp 65001 >nul
+
 for /f "tokens=*" %%b in ('git rev-parse --abbrev-ref HEAD') do set BRANCH=%%b
 
 echo Текущая ветка: %BRANCH%

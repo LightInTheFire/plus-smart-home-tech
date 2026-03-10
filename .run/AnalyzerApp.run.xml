@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="AnalyzerApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="dev" />
+    <option name="INCLUDE_PROVIDED_SCOPE" value="false" />
+    <module name="analyzer" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="ru.yandex.practicum.testcontainers.TestcontainersAnalyzerApp" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="ru.yandex.practicum.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

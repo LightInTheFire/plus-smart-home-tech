@@ -1,6 +1,8 @@
 @echo off
 setlocal
 
+chcp 65001 >nul
+
 REM Локальный запуск тестов Hub Router для проверки сервиса Collector
 
 set "JAR_PATH=%~dp0..\hub-router.jar"
