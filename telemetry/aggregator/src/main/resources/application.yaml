@@ -3,3 +3,9 @@ spring:
     name: aggregator
   config:
     import: configserver:${CONFIG_SERVER_URL:http://localhost:8888}
+  cloud:
+    config:
+      fail-fast: true
+      retry:
+        use-random-policy: true
+        max-interval: 6000
