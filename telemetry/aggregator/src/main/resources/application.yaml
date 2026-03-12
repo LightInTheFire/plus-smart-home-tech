@@ -1,18 +1,5 @@
-server:
-  port: 10090
-
-kafka:
-  topics:
-    sensor-events: "telemetry.sensors.v1"
-    sensor-snapshots: "telemetry.snapshots.v1"
-  bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:localhost:9092}
-  producer:
-    key-serializer-class: org.apache.kafka.common.serialization.StringSerializer
-    value-serializer-class: ru.yandex.practicum.serialization.AvroSerializer
-  consumer:
-    key-deserializer-class: org.apache.kafka.common.serialization.StringDeserializer
-    value-deserializer-class: ru.yandex.practicum.serialization.SensorEventAvroDeserializer
-    client-id: "AggregatorConsumer"
-    group-id: "SensorsAggregationGroup"
-    max-poll-records: 25
-    consume-timeout: 5000
+spring:
+  application:
+    name: aggregator
+  config:
+    import: configserver:${CONFIG_SERVER_URL:http://localhost:8888}
