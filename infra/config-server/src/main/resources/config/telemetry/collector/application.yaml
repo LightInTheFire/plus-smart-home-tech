@@ -1,0 +1,14 @@
+server:
+  port: 10089
+
+grpc:
+  server:
+    port: 59091
+
+kafka:
+  topics:
+    sensor-events: "telemetry.sensors.v1"
+    hub-events: "telemetry.hubs.v1"
+  bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:localhost:9092}
+  key-serializer-class: org.apache.kafka.common.serialization.StringSerializer
+  value-serializer-class: ru.yandex.practicum.serialization.AvroSerializer
