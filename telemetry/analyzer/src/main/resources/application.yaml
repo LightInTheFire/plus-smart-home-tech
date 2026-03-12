@@ -1,21 +1,5 @@
-server:
-  port: 10091
-
 spring:
+  application:
+    name: analyzer
   config:
-    import: [ classpath:config/kafka.yaml, classpath:config/hub-router-client.yaml ]
-  sql:
-    init:
-      mode: always
-
-  jpa:
-    open-in-view: false
-    properties:
-      hibernate:
-        format_sql: true
-    hibernate:
-      ddl-auto: validate
-  datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/smart-home}
-    username: ${SPRING_DATASOURCE_USERNAME:postgres}
-    password: ${SPRING_DATASOURCE_PASSWORD:secret}
+    import: configserver:${CONFIG_SERVER_URL:http://localhost:8888}
