@@ -1,0 +1,2 @@
+server:
+  port: ${WAREHOUSE_SERVER_PORT:0}
