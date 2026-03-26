@@ -7,18 +7,20 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-public record ProductDto(UUID productId,
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    @NotBlank String productName,
+public record ProductDto(@JsonProperty("productId") UUID id,
+
+    @JsonProperty("productName") @NotBlank String name,
 
     @NotBlank String description,
 
     @NotBlank String imageSrc,
 
-    @NotNull QuantityState quantityState,
+    @JsonProperty("quantityState") @NotNull QuantityState quantity,
 
-    @NotNull ProductState productState,
+    @JsonProperty("productState") @NotNull ProductState state,
 
-    @NotNull ProductCategory productCategory,
+    @JsonProperty("productCategory") @NotNull ProductCategory category,
 
     @Positive @NotNull BigDecimal price) {}
