@@ -5,6 +5,7 @@ spring:
 
   jpa:
     open-in-view: false
+    show-sql: true
     properties:
       hibernate:
         format_sql: true
@@ -12,6 +13,5 @@ spring:
       ddl-auto: validate
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/smart-home}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:secret}
