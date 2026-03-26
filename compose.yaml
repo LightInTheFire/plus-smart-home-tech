@@ -1,11 +1,12 @@
 services:
-  analyzer-postgres:
+  postgres-db:
     image: postgres:18.3-alpine
     restart: unless-stopped
     ports:
       - "5432:5432"
     volumes:
-      - analyzer-postgres_data:/var/lib/postgresql/data
+      - smart_home_postgres_data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: secret
@@ -39,8 +40,7 @@ services:
     image: confluentinc/confluent-local:7.4.3
     container_name: kafka-init-topics
     depends_on:
-      kafka:
-        condition: service_healthy
+      - kafka
     command: "bash -c \
                 'kafka-topics --create --topic telemetry.sensors.v1 \
                              --partitions 1 --replication-factor 1 --if-not-exists \
@@ -54,4 +54,4 @@ services:
     init: true
 
 volumes:
-  analyzer-postgres_data:
+  smart_home_postgres_data:
