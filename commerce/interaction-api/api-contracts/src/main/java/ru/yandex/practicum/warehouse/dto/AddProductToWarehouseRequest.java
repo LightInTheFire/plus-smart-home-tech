@@ -5,6 +5,4 @@ import java.util.UUID;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-public record AddProductToWarehouseRequest(@NotNull UUID productId,
-
-    @Positive @NotNull Long quantity) {}
+public record AddProductToWarehouseRequest(@NotNull UUID productId, @Positive @NotNull Long quantity) {}
