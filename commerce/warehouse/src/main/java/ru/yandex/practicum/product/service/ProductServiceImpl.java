@@ -42,6 +42,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BookedProductsDto checkProductQuantityEnoughForShoppingCart(ShoppingCartDto shoppingCartDto) {
         Map<UUID, Long> products = shoppingCartDto.products();
         List<Product> productsStock = productRepository.findByIdIn(products.keySet());
@@ -57,15 +58,12 @@ public class ProductServiceImpl implements ProductService {
                 "Products with id's %s from shopping cart are not exist".formatted(notExistingProductKeys.toString()));
         }
 
-        productsStock.forEach(product -> {
-            Long currentQuantity = product.getQuantity();
-            long updatedQuantity = currentQuantity - products.get(product.getId());
-            if (updatedQuantity < 0) {
-                throw new ProductInShoppingCartLowQuantityInWarehouse(
-                    "Not enough stock for product with id %s".formatted(product.getId()));
-            }
-            product.setQuantity(updatedQuantity);
-        });
+        boolean isEnoughStock = productsStock.stream()
+            .allMatch(p -> p.getQuantity() >= products.get(p.getId()));
+        if (!isEnoughStock) {
+            throw new ProductInShoppingCartLowQuantityInWarehouse(
+                "Not enough stock for some products from shopping cart");
+        }
 
         boolean isFragile = productsStock.stream()
             .anyMatch(Product::isFragile);
