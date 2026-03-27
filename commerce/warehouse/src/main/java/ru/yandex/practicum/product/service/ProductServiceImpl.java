@@ -7,7 +7,6 @@ import java.util.*;
 import ru.yandex.practicum.cart.dto.ShoppingCartDto;
 import ru.yandex.practicum.product.ProductMapper;
 import ru.yandex.practicum.product.ProductRepository;
-import ru.yandex.practicum.product.model.Dimension;
 import ru.yandex.practicum.product.model.Product;
 import ru.yandex.practicum.shared.exceptions.NoSpecifiedProductInWarehouseException;
 import ru.yandex.practicum.shared.exceptions.ProductInShoppingCartLowQuantityInWarehouse;
@@ -79,8 +78,10 @@ public class ProductServiceImpl implements ProductService {
             .doubleValue();
 
         double deliveryVolume = productsStock.stream()
-            .map(Product::getDimension)
-            .map(Dimension::calculateVolume)
+            .map(
+                product -> product.getDimension()
+                    .calculateVolume()
+                    .multiply(BigDecimal.valueOf(products.get(product.getId()))))
             .reduce(BigDecimal.ZERO, BigDecimal::add)
             .doubleValue();
 
