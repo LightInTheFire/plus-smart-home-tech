@@ -1,2 +1,9 @@
 server:
   port: ${SHOPPING_CART_SERVER_PORT:0}
+
+spring:
+  profiles:
+    include:
+      - db
+  datasource:
+    url: ${SHOPPING_CART_DATASOURCE_URL:jdbc:postgresql://localhost:5432/shopping-cart}
