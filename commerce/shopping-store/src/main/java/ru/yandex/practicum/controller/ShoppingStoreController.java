@@ -5,10 +5,7 @@ import java.util.UUID;
 
 import ru.yandex.practicum.service.ProductsGetRequest;
 import ru.yandex.practicum.service.ShoppingStoreService;
-import ru.yandex.practicum.store.dto.PageProductDto;
-import ru.yandex.practicum.store.dto.ProductCategory;
-import ru.yandex.practicum.store.dto.ProductDto;
-import ru.yandex.practicum.store.dto.SetProductQuantityStateRequest;
+import ru.yandex.practicum.store.dto.*;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -68,7 +65,9 @@ public class ShoppingStoreController {
     }
 
     @PostMapping("/quantityState")
-    public Boolean setProductQuantityState(@RequestBody SetProductQuantityStateRequest request) {
+    public Boolean setProductQuantityState(@RequestParam UUID productId, @RequestParam QuantityState quantityState) {
+
+        SetProductQuantityStateRequest request = new SetProductQuantityStateRequest(productId, quantityState);
 
         log.info("Setting quantity state for product: {} to state: {}", request.productId(), request.quantityState());
 

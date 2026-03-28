@@ -3,14 +3,12 @@ package ru.yandex.practicum.service;
 import java.util.List;
 import java.util.UUID;
 
+import ru.yandex.practicum.controller.ProductsSortBy;
 import ru.yandex.practicum.mapper.ProductMapper;
 import ru.yandex.practicum.model.Product;
 import ru.yandex.practicum.repository.ProductRepository;
 import ru.yandex.practicum.shared.exceptions.ProductNotFoundException;
-import ru.yandex.practicum.store.dto.PageProductDto;
-import ru.yandex.practicum.store.dto.ProductDto;
-import ru.yandex.practicum.store.dto.ProductState;
-import ru.yandex.practicum.store.dto.SetProductQuantityStateRequest;
+import ru.yandex.practicum.store.dto.*;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,6 +41,14 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
         List<ProductDto> productDtos = products.stream()
             .map(productMapper::toProductDto)
             .toList();
+        List<SortObject> sortOrders = products.getSort()
+            .stream()
+            .map(
+                order -> new SortObject(
+                    ProductsSortBy.getNameByFieldName(order.getProperty()),
+                    order.getDirection()
+                        .name()))
+            .toList();
         return new PageProductDto(
             products.getTotalElements(),
             products.getTotalPages(),
@@ -51,7 +57,7 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
             products.getSize(),
             productDtos,
             products.getNumber(),
-            products.getSort(),
+            sortOrders,
             products.getNumberOfElements(),
             products.getPageable(),
             products.isEmpty());
