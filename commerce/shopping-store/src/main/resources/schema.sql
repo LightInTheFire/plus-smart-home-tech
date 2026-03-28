@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS products
 (
-    id          UUID PRIMARY KEY DEFAULT uuidv7(),
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name        VARCHAR(128)     NOT NULL,
     description VARCHAR(512)     NOT NULL,
     image_src   VARCHAR(512)     NOT NULL,

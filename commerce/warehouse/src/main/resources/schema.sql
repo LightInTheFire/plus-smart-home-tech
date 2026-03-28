@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS addresses
 (
-    id      UUID PRIMARY KEY DEFAULT uuidv7(),
+    id      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     country VARCHAR(64),
     city    VARCHAR(120),
     street  VARCHAR(120),
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS addresses
 
 CREATE TABLE IF NOT EXISTS products
 (
-    id      UUID PRIMARY KEY DEFAULT uuidv7(),
+    id      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     fragile BOOLEAN        NOT NULL,
     width   NUMERIC(10, 2) NOT NULL,
     height  NUMERIC(10, 2) NOT NULL,
