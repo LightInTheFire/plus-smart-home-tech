@@ -13,5 +13,6 @@
     <name>interaction-api</name>
     <modules>
         <module>api-contracts</module>
+        <module>warehouse-client</module>
     </modules>
 </project>
