@@ -4,13 +4,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 
 import ru.yandex.practicum.cart.dto.ChangeProductQuantityRequest;
 import ru.yandex.practicum.cart.dto.ShoppingCartDto;
 import ru.yandex.practicum.service.ShoppingCartService;
-import ru.yandex.practicum.shared.exceptions.NotAuthorizedUserException;
+import ru.yandex.practicum.validation.ValidUsername;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,37 +34,34 @@ public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
 
     @GetMapping
-    public ShoppingCartDto getShoppingCart(@RequestParam String username) {
-        if (username == null || username.isBlank()) {
-            throw new NotAuthorizedUserException("Username is null or empty");
-        }
+    public ShoppingCartDto getShoppingCart(@RequestParam @ValidUsername String username) {
         log.info("Getting shopping cart for user: {}", username);
         return shoppingCartService.getShoppingCart(username);
     }
 
     @PutMapping
-    public ShoppingCartDto addProductToShoppingCart(@RequestParam @NotEmpty String username,
-        @RequestBody @Valid Map<UUID, Long> products) {
+    public ShoppingCartDto addProductToShoppingCart(@RequestParam @ValidUsername String username,
+        @RequestBody @NotEmpty Map<UUID, Long> products) {
         log.info("Adding products to cart for user: {}, products: {}", username, products);
         return shoppingCartService.addProductToShoppingCart(username, products);
     }
 
     @DeleteMapping
-    public void deactivateCurrentShoppingCart(@RequestParam @NotEmpty String username) {
+    public void deactivateCurrentShoppingCart(@RequestParam @ValidUsername String username) {
         log.info("Deactivating cart for user: {}", username);
         shoppingCartService.deactivateCurrentShoppingCart(username);
     }
 
     @PostMapping("/remove")
-    public ShoppingCartDto removeFromShoppingCart(@RequestParam @NotEmpty String username,
-        @RequestBody @Valid List<UUID> productIds) {
+    public ShoppingCartDto removeFromShoppingCart(@RequestParam @ValidUsername String username,
+        @RequestBody @NotEmpty List<UUID> productIds) {
         log.info("Removing products from cart for user: {}, productIds: {}", username, productIds);
         return shoppingCartService.removeFromShoppingCart(username, productIds);
     }
 
     @PostMapping("/change-quantity")
-    public ShoppingCartDto changeProductQuantity(@RequestParam @NotEmpty String username,
-        @RequestBody @Valid ChangeProductQuantityRequest request) {
+    public ShoppingCartDto changeProductQuantity(@RequestParam @ValidUsername String username,
+        @RequestBody ChangeProductQuantityRequest request) {
         log.info("Changing product quantity for user: {}, request: {}", username, request);
         return shoppingCartService.changeProductQuantity(username, request);
     }

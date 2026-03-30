@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Positive;
 
 public record NewProductInWarehouseRequest(@NotNull UUID productId,
 
-    Boolean fragile,
+    @NotNull Boolean fragile,
 
     @NotNull DimensionDto dimension,
 
