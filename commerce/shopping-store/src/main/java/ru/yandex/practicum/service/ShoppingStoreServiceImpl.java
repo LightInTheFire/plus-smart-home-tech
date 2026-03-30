@@ -66,7 +66,6 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
     @Override
     public ProductDto createNewProduct(ProductDto productDto) {
         Product product = productMapper.toEntity(productDto);
-        product.setState(ProductState.ACTIVE);
         Product saved = productRepository.save(product);
         return productMapper.toProductDto(saved);
     }
