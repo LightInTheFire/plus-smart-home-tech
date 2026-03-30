@@ -3,6 +3,7 @@ package ru.yandex.practicum.service;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import ru.yandex.practicum.cart.dto.ChangeProductQuantityRequest;
@@ -38,12 +39,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     @Transactional(readOnly = true)
     public ShoppingCartDto getShoppingCart(String username) {
-        ShoppingCart userCart = shoppingCartRepository
-            .findFirstWithItemsByUsernameLikeIgnoreCaseAndActiveTrueOrderByCreatedAtDesc(username)
-            .orElseThrow(
-                () -> new EntityNotFoundException("No shopping cart found for username %s".formatted(username)));
-
-        return shoppingCartMapper.toShoppingCartDto(userCart);
+        Optional<ShoppingCart> userCart = shoppingCartRepository
+            .findFirstWithItemsByUsernameLikeIgnoreCaseAndActiveTrueOrderByCreatedAtDesc(username);
+        if (userCart.isEmpty()) {
+            return ShoppingCartDto.getEmpty();
+        }
+        return shoppingCartMapper.toShoppingCartDto(userCart.get());
     }
 
     @Osim
