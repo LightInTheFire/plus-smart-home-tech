@@ -31,6 +31,7 @@
 - **Java 21**
 - **Spring Boot 3.3.2**
 - **Spring Cloud 2023.0.3**
+- **Docker & Docker Compose** - контейнеризация
 - **Apache Kafka** — шина событий
 - **PostgreSQL 18** — основная БД
 - **gRPC + Protobuf** — RPC-коммуникация
@@ -62,4 +63,65 @@ plus-smart-home-tech/
 ├── init-db/            # Скрипты инициализации БД
 ├── compose.yaml        # Docker Compose конфигурация
 └── pom.xml             # Корневой Maven POM
+```
+
+##  Docker
+
+### Требования
+
+- Docker 20+
+- Docker Compose 2.0+
+
+### Конфигурации
+
+Проект содержит две Docker Compose конфигурации:
+
+| Файл | Описание |
+|------|----------|
+| `compose.yaml` | Полная конфигурация со всеми сервисами (БД, Kafka, микросервисы) |
+| `compose-dev.yaml` | Базовая инфраструктура для разработки (БД + Kafka) |
+
+### Запуск
+
+**Полный стек микросервисов:**
+```bash
+docker compose up --build
+```
+
+**Только инфраструктура (БД + Kafka):**
+```bash
+docker compose -f compose-dev.yaml up --build
+```
+
+
+### Сервисы
+
+| Сервис | Порт | Описание |
+|--------|------|----------|
+| `postgres-db` | 5432 | PostgreSQL база данных |
+| `kafka` | 9092, 9101 | Apache Kafka (основной + JMX) |
+| `discovery-server` | 8761 | Eureka сервис-дискавери |
+| `config-server` | 8888 | Централизованная конфигурация |
+| `shopping-cart` | 8081 | Сервис корзины покупок |
+| `shopping-store` | 8082 | Сервис магазина |
+| `warehouse` | 8083 | Сервис управления складом |
+| `collector` | 10089, 59091 | Сбор телеметрии (HTTP + gRPC) |
+| `analyzer` | 10091 | Анализ телеметрии |
+| `aggregator` | 10090 | Агрегация данных |
+
+### Kafka Topics
+
+При запуске автоматически создаются топики:
+- `telemetry.sensors.v1` — данные с датчиков
+- `telemetry.snapshots.v1` — снапшоты телеметрии
+- `telemetry.hubs.v1` — данные с хабов
+
+### Остановка
+
+```bash
+# Остановить все сервисы
+docker compose down
+
+# Остановить с удалением томов
+docker compose down -v
 ```
