@@ -1,9 +1,9 @@
 server:
-  port: 10089
+  port: ${COLLECTOR_SERVER_PORT:0}
 
 grpc:
   server:
-    port: 59091
+    port: ${COLLECTOR_GRPC_PORT:0}
 
 kafka:
   topics:

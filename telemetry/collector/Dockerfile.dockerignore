@@ -2,7 +2,7 @@
 *
 
 # Include what we need
-!**/src/**
+!**/src
 !.mvn
 !**/pom.xml
 !mvnw
