@@ -30,15 +30,23 @@
 
 - **Java 21**
 - **Spring Boot 3.3.2**
+  - Spring Web
+  - Spring Data JPA
+  - Spring Validation
+  - Spring Retry
+  - Spring Boot Actuator
 - **Spring Cloud 2023.0.3**
-- **Docker & Docker Compose** - контейнеризация
+  - Spring Cloud Config (Client/Server)
+  - Spring Cloud Netflix Eureka
+- **Maven** — сборка и управление зависимостями
+- **Docker & Docker Compose** — контейнеризация
 - **Apache Kafka** — шина событий
 - **PostgreSQL 18** — основная БД
 - **gRPC + Protobuf** — RPC-коммуникация
 - **Avro** — сериализация событий
 - **MapStruct** — маппинг DTO
 - **Lombok** — уменьшение бойлерплейт кода
-- **Eureka** — сервис-дискавери
+- **Jackson** — JSON-сериализация
 - **Spotless** — форматирование кода
 
 ##  Разработка
@@ -50,6 +58,37 @@
 ```bash
 mvn spotless:apply
 ```
+
+### Run конфигурации для IntelliJ IDEA
+
+Проект включает готовые конфигурации для запуска в IntelliJ IDEA (папка `.run/`):
+
+| Конфигурация       | Модуль                  |
+|--------------------|-------------------------|
+| `DiscoveryServer`  | infra/discovery-server  |
+| `ConfigServer`     | infra/config-server     |
+| `ShoppingCartApp`  | commerce/shopping-cart  |
+| `ShoppingStoreApp` | commerce/shopping-store |
+| `WarehouseApp`     | commerce/warehouse      |
+| `CollectorApp`     | telemetry/collector     |
+| `AnalyzerApp`      | telemetry/analyzer      |
+| `AggregatorApp`    | telemetry/aggregator    |
+
+**Импорт конфигураций:**
+1. Откройте проект в IntelliJ IDEA
+2. Конфигурации автоматически появятся в списке Run/Debug Configurations
+3. Перед запуском убедитесь, что инфраструктура (Eureka, Config Server) запущена
+
+### OpenAPI документация
+
+Спецификации OpenAPI доступны в папке `openapi-docs/`:
+
+- `shopping-cart.json` — API корзины покупок
+- `shopping-store.json` — API магазина
+- `warehouse.json` — API склада
+
+Для просмотра используйте:
+- [Swagger Editor](https://editor.swagger.io/)
 
 ##  Структура проекта
 
@@ -76,10 +115,10 @@ plus-smart-home-tech/
 
 Проект содержит две Docker Compose конфигурации:
 
-| Файл | Описание |
-|------|----------|
-| `compose.yaml` | Полная конфигурация со всеми сервисами (БД, Kafka, микросервисы) |
-| `compose-dev.yaml` | Базовая инфраструктура для разработки (БД + Kafka) |
+| Файл               | Описание                                                         |
+|--------------------|------------------------------------------------------------------|
+| `compose.yaml`     | Полная конфигурация со всеми сервисами (БД, Kafka, микросервисы) |
+| `compose-dev.yaml` | Базовая инфраструктура для разработки (БД + Kafka)               |
 
 ### Запуск
 
@@ -96,18 +135,18 @@ docker compose -f compose-dev.yaml up --build
 
 ### Сервисы
 
-| Сервис | Порт | Описание |
-|--------|------|----------|
-| `postgres-db` | 5432 | PostgreSQL база данных |
-| `kafka` | 9092, 9101 | Apache Kafka (основной + JMX) |
-| `discovery-server` | 8761 | Eureka сервис-дискавери |
-| `config-server` | 8888 | Централизованная конфигурация |
-| `shopping-cart` | 8081 | Сервис корзины покупок |
-| `shopping-store` | 8082 | Сервис магазина |
-| `warehouse` | 8083 | Сервис управления складом |
-| `collector` | 10089, 59091 | Сбор телеметрии (HTTP + gRPC) |
-| `analyzer` | 10091 | Анализ телеметрии |
-| `aggregator` | 10090 | Агрегация данных |
+| Сервис             | Порт         | Описание                      |
+|--------------------|--------------|-------------------------------|
+| `postgres-db`      | 5432         | PostgreSQL база данных        |
+| `kafka`            | 9092, 9101   | Apache Kafka (основной + JMX) |
+| `discovery-server` | 8761         | Eureka сервис-дискавери       |
+| `config-server`    | 8888         | Централизованная конфигурация |
+| `shopping-cart`    | 8081         | Сервис корзины покупок        |
+| `shopping-store`   | 8082         | Сервис магазина               |
+| `warehouse`        | 8083         | Сервис управления складом     |
+| `collector`        | 10089, 59091 | Сбор телеметрии (HTTP + gRPC) |
+| `analyzer`         | 10091        | Анализ телеметрии             |
+| `aggregator`       | 10090        | Агрегация данных              |
 
 ### Kafka Topics
 
