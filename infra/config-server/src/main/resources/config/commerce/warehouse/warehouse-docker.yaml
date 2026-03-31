@@ -1,0 +1,11 @@
+server:
+  port: 8083
+
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres-db:5432/warehouse
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/

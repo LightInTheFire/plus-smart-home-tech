@@ -1,14 +1,20 @@
-server:
-  port: 8080
+spring:
+  application:
+    name: collector
+  config:
+    import: "configserver:"
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
+      fail-fast: true
+      retry:
+        max-attempts: 10
+        initial-interval: 1000
+        multiplier: 1.5
 
-grpc:
-  server:
-    port: 59091
-
-kafka:
-  topics:
-    sensor-events: "telemetry.sensors.v1"
-    hub-events: "telemetry.hubs.v1"
-  bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:localhost:9092}
-  key-serializer-class: org.apache.kafka.common.serialization.StringSerializer
-  value-serializer-class: ru.yandex.practicum.serialization.AvroSerializer
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}

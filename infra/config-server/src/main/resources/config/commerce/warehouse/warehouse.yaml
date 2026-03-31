@@ -1,0 +1,9 @@
+server:
+  port: ${WAREHOUSE_SERVER_PORT:0}
+
+spring:
+  profiles:
+    include:
+      - db
+  datasource:
+    url: ${WAREHOUSE_DATASOURCE_URL:jdbc:postgresql://localhost:5432/warehouse}

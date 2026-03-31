@@ -1,0 +1,9 @@
+server:
+  port: ${SHOPPING_STORE_SERVER_PORT:0}
+
+spring:
+  profiles:
+    include:
+      - db
+  datasource:
+    url: ${SHOPPING_STORE_DATASOURCE_URL:jdbc:postgresql://localhost:5432/shopping-store}
