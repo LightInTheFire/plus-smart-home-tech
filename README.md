@@ -13,6 +13,7 @@
 #### Инфраструктура (`infra`)
 - **discovery-server** — сервер обнаружения сервисов на базе Eureka
 - **config-server** — централизованное управление конфигурациями
+- **gateway** — API Gateway
 
 #### Телеметрия (`telemetry`)
 - **collector** — сервис сбора данных с устройств (gRPC + Kafka)
@@ -24,6 +25,9 @@
 - **shopping-cart** — сервис корзины покупок
 - **warehouse** — сервис управления складом
 - **shopping-store** — сервис магазина
+- **order** — сервис управления заказами
+- **payment** — сервис обработки платежей
+- **delivery** — сервис доставки
 - **interaction-api** — API для взаимодействия сервисов
 
 ##  Технологический стек
@@ -38,6 +42,7 @@
 - **Spring Cloud 2023.0.3**
   - Spring Cloud Config (Client/Server)
   - Spring Cloud Netflix Eureka
+  - Spring Cloud Gateway
 - **Maven** — сборка и управление зависимостями
 - **Docker & Docker Compose** — контейнеризация
 - **Apache Kafka** — шина событий
@@ -67,9 +72,13 @@ mvn spotless:apply
 |--------------------|-------------------------|
 | `DiscoveryServer`  | infra/discovery-server  |
 | `ConfigServer`     | infra/config-server     |
+| `GatewayApp`       | infra/gateway           |
 | `ShoppingCartApp`  | commerce/shopping-cart  |
 | `ShoppingStoreApp` | commerce/shopping-store |
 | `WarehouseApp`     | commerce/warehouse      |
+| `OrderApp`         | commerce/order          |
+| `PaymentApp`       | commerce/payment        |
+| `DeliveryApp`      | commerce/delivery       |
 | `CollectorApp`     | telemetry/collector     |
 | `AnalyzerApp`      | telemetry/analyzer      |
 | `AggregatorApp`    | telemetry/aggregator    |
@@ -86,6 +95,9 @@ mvn spotless:apply
 - `shopping-cart.json` — API корзины покупок
 - `shopping-store.json` — API магазина
 - `warehouse.json` — API склада
+- `order.json` — API заказов
+- `payment.json` — API платежей
+- `delivery.json` — API доставки
 
 Для просмотра используйте:
 - [Swagger Editor](https://editor.swagger.io/)
@@ -141,9 +153,13 @@ docker compose -f compose-dev.yaml up --build
 | `kafka`            | 9092, 9101   | Apache Kafka (основной + JMX) |
 | `discovery-server` | 8761         | Eureka сервис-дискавери       |
 | `config-server`    | 8888         | Централизованная конфигурация |
+| `gateway`          | 8080         | API Gateway                   |
 | `shopping-cart`    | 8081         | Сервис корзины покупок        |
 | `shopping-store`   | 8082         | Сервис магазина               |
 | `warehouse`        | 8083         | Сервис управления складом     |
+| `order`            | 8084         | Сервис управления заказами    |
+| `payment`          | 8085         | Сервис обработки платежей     |
+| `delivery`         | 8086         | Сервис доставки               |
 | `collector`        | 10089, 59091 | Сбор телеметрии (HTTP + gRPC) |
 | `analyzer`         | 10091        | Анализ телеметрии             |
 | `aggregator`       | 10090        | Агрегация данных              |
