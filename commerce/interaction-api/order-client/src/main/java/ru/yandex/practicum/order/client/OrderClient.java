@@ -23,4 +23,16 @@ public interface OrderClient {
     @PostMapping("/payment/succeed")
     @ReleaseConnection
     OrderDto processPaymentSucceed(@RequestBody UUID orderId);
+
+    @PostMapping("/delivery")
+    @ReleaseConnection
+    OrderDto processDelivery(@RequestBody UUID orderId);
+
+    @PostMapping("/delivery/failed")
+    @ReleaseConnection
+    OrderDto processDeliveryFailed(@RequestBody UUID orderId);
+
+    @PostMapping("/assembly")
+    @ReleaseConnection
+    OrderDto processAssembled(@RequestBody UUID orderId);
 }

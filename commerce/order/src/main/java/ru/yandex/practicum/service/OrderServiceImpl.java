@@ -135,8 +135,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto processDelivery(UUID orderId) {
         Order order = getOrderById(orderId);
 
-        order.setDeliveryId(UUID.randomUUID());
-        order.setState(OrderState.ON_DELIVERY);
+        order.setState(OrderState.DELIVERED);
 
         Order saved = orderRepository.save(order);
         return orderMapper.toOrderDto(saved);
