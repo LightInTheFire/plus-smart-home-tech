@@ -27,8 +27,9 @@ CREATE TABLE IF NOT EXISTS orders
 
 CREATE TABLE IF NOT EXISTS order_bookings
 (
-    id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    order_id   UUID   NOT NULL REFERENCES orders (id),
-    product_id UUID   NOT NULL REFERENCES products (id),
-    quantity   BIGINT not null
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    order_id    UUID   NOT NULL REFERENCES orders (id),
+    product_id  UUID   NOT NULL REFERENCES products (id),
+    delivery_id UUID   NOT NULL,
+    quantity    BIGINT not null
 );
