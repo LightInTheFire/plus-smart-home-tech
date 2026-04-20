@@ -44,6 +44,12 @@ public class OrderStateController {
         return orderService.processPaymentFailed(orderId);
     }
 
+    @PostMapping("/payment/succeed")
+    public OrderDto paymentSucceed(@RequestBody @NotNull UUID orderId) {
+        log.info("Payment succeed for order: {}", orderId);
+        return orderService.processPaymentSucceed(orderId);
+    }
+
     @PostMapping("/delivery")
     public OrderDto delivery(@RequestBody @NotNull UUID orderId) {
         log.info("Processing delivery for order: {}", orderId);

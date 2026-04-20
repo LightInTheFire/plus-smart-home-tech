@@ -23,6 +23,8 @@ public interface OrderService {
 
     OrderDto processDeliveryFailed(UUID orderId);
 
+    OrderDto processPaymentSucceed(UUID orderId);
+
     OrderDto complete(UUID orderId);
 
     OrderDto processAssembly(UUID orderId);

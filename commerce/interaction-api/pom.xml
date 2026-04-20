@@ -14,5 +14,8 @@
     <modules>
         <module>api-contracts</module>
         <module>warehouse-client</module>
+        <module>shopping-store-client</module>
+        <module>order-client</module>
+        <module>payment-client</module>
     </modules>
 </project>

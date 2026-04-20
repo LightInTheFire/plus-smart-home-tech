@@ -17,6 +17,8 @@ import ru.yandex.practicum.order.dto.CreateNewOrderRequest;
 import ru.yandex.practicum.order.dto.OrderDto;
 import ru.yandex.practicum.order.dto.OrderState;
 import ru.yandex.practicum.order.dto.ProductReturnRequest;
+import ru.yandex.practicum.payment.client.PaymentClient;
+import ru.yandex.practicum.payment.dto.PaymentDto;
 import ru.yandex.practicum.repository.OrderAddressRepository;
 import ru.yandex.practicum.repository.OrderRepository;
 import ru.yandex.practicum.shared.exceptions.EntityNotFoundException;
@@ -39,6 +41,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderItemMapper orderItemMapper;
     private final OrderAddressMapper orderAddressMapper;
     private final OrderAddressRepository orderAddressRepository;
+    private final PaymentClient paymentClient;
 
     @Override
     @Transactional(readOnly = true)
@@ -98,7 +101,10 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto processPayment(UUID orderId) {
         Order order = getOrderById(orderId);
 
-        order.setPaymentId(UUID.randomUUID()); // todo go to payment service
+        OrderDto orderDto = orderMapper.toOrderDto(order);
+        PaymentDto payment = paymentClient.payment(orderDto);
+        order.setPaymentId(payment.paymentId());
+        order.setTotalPrice(payment.totalPayment());
         order.setState(OrderState.ON_PAYMENT);
 
         Order saved = orderRepository.save(order);
@@ -110,6 +116,16 @@ public class OrderServiceImpl implements OrderService {
         Order order = getOrderById(orderId);
 
         order.setState(OrderState.PAYMENT_FAILED);
+
+        Order saved = orderRepository.save(order);
+        return orderMapper.toOrderDto(saved);
+    }
+
+    @Override
+    public OrderDto processPaymentSucceed(UUID orderId) {
+        Order order = getOrderById(orderId);
+
+        order.setState(OrderState.PAID);
 
         Order saved = orderRepository.save(order);
         return orderMapper.toOrderDto(saved);
