@@ -1,9 +1,12 @@
 package ru.yandex.practicum.product.service;
 
+import java.util.Map;
+import java.util.UUID;
+
+import jakarta.validation.constraints.NotEmpty;
+
 import ru.yandex.practicum.cart.dto.ShoppingCartDto;
-import ru.yandex.practicum.warehouse.dto.AddProductToWarehouseRequest;
-import ru.yandex.practicum.warehouse.dto.BookedProductsDto;
-import ru.yandex.practicum.warehouse.dto.NewProductInWarehouseRequest;
+import ru.yandex.practicum.warehouse.dto.*;
 
 public interface ProductService {
 
@@ -13,4 +16,9 @@ public interface ProductService {
 
     void addProductToWarehouse(AddProductToWarehouseRequest request);
 
+    BookedProductsDto assemblyProducts(AssemblyProductsForOrderRequest request);
+
+    void shipDelivery(ShippedToDeliveryRequest request);
+
+    void returnProducts(@NotEmpty Map<UUID, Long> products);
 }

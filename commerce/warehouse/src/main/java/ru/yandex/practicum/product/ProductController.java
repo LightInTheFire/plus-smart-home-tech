@@ -1,10 +1,13 @@
 package ru.yandex.practicum.product;
 
+import java.util.Map;
+import java.util.UUID;
+
+import jakarta.validation.constraints.NotEmpty;
+
 import ru.yandex.practicum.cart.dto.ShoppingCartDto;
 import ru.yandex.practicum.product.service.ProductService;
-import ru.yandex.practicum.warehouse.dto.AddProductToWarehouseRequest;
-import ru.yandex.practicum.warehouse.dto.BookedProductsDto;
-import ru.yandex.practicum.warehouse.dto.NewProductInWarehouseRequest;
+import ru.yandex.practicum.warehouse.dto.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -42,4 +45,23 @@ public class ProductController {
         productService.addProductToWarehouse(request);
     }
 
+    @PostMapping("/assembly")
+    public BookedProductsDto assemblyProducts(@RequestBody AssemblyProductsForOrderRequest request) {
+        log.info("Assembling product for order: {}", request);
+        return productService.assemblyProducts(request);
+    }
+
+    @PostMapping("/shipped")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void shipDelivery(@RequestBody ShippedToDeliveryRequest request) {
+        log.info("Shipping delivery for order: {}", request);
+        productService.shipDelivery(request);
+    }
+
+    @PostMapping("/return")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void returnProducts(@NotEmpty Map<UUID, Long> products) {
+        log.info("Returning products to warehouse: {}", products);
+        productService.returnProducts(products);
+    }
 }
