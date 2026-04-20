@@ -4,10 +4,10 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import ru.yandex.practicum.order.model.Order;
-import ru.yandex.practicum.order.model.OrderItem;
 import ru.yandex.practicum.order.dto.OrderDto;
 import ru.yandex.practicum.order.dto.OrderState;
+import ru.yandex.practicum.order.model.Order;
+import ru.yandex.practicum.order.model.OrderItem;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

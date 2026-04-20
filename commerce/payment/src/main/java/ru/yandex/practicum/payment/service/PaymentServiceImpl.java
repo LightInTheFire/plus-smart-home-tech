@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.UUID;
 
-import ru.yandex.practicum.payment.mapper.PaymentMapper;
-import ru.yandex.practicum.payment.model.Payment;
 import ru.yandex.practicum.order.client.OrderClient;
 import ru.yandex.practicum.order.dto.OrderDto;
 import ru.yandex.practicum.payment.dto.PaymentDto;
 import ru.yandex.practicum.payment.dto.PaymentStatus;
+import ru.yandex.practicum.payment.mapper.PaymentMapper;
+import ru.yandex.practicum.payment.model.Payment;
 import ru.yandex.practicum.payment.repository.PaymentRepository;
 import ru.yandex.practicum.shared.exceptions.EntityNotFoundException;
 import ru.yandex.practicum.store.client.ShoppingStoreClient;
