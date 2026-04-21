@@ -1,5 +1,7 @@
 package ru.yandex.practicum.repository;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import ru.yandex.practicum.model.Product;
@@ -15,4 +17,6 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     Page<Product> findByCategory(ProductCategory category, Pageable pageable);
 
     Page<Product> findByCategoryAndStateNot(ProductCategory category, ProductState state, Pageable pageable);
+
+    List<Product> findByIdIn(Collection<UUID> ids);
 }
