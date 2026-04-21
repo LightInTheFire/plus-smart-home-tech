@@ -77,10 +77,10 @@ public class PaymentServiceImpl implements PaymentService {
     public void updatePaymentSuccess(UUID paymentId) {
         Payment payment = getPaymentById(paymentId);
         payment.setStatus(PaymentStatus.SUCCESS);
-        paymentRepository.save(payment);
 
         orderClient.processPaymentSucceed(payment.getOrderId());
 
+        paymentRepository.save(payment);
         log.info("Payment {} processed successfully", paymentId);
     }
 
@@ -88,10 +88,10 @@ public class PaymentServiceImpl implements PaymentService {
     public void updatePaymentFailed(UUID paymentId) {
         Payment payment = getPaymentById(paymentId);
         payment.setStatus(PaymentStatus.FAILED);
-        paymentRepository.save(payment);
 
         orderClient.processPaymentFailed(payment.getOrderId());
 
+        paymentRepository.save(payment);
         log.info("Payment {} failed", paymentId);
     }
 
