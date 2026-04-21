@@ -2,7 +2,11 @@ package ru.yandex.practicum.payment.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import ru.yandex.practicum.order.client.OrderClient;
 import ru.yandex.practicum.order.dto.OrderDto;
@@ -105,12 +109,22 @@ public class PaymentServiceImpl implements PaymentService {
             .isEmpty()) {
             return BigDecimal.ZERO;
         }
+        List<UUID> productIds = order.products()
+            .keySet()
+            .stream()
+            .toList();
+        Map<UUID, ProductDto> products = shoppingStoreClient.getProducts(productIds)
+            .stream()
+            .collect(Collectors.toMap(ProductDto::id, Function.identity()));
 
         return order.products()
             .entrySet()
             .stream()
             .map(entry -> {
-                ProductDto product = shoppingStoreClient.getProduct(entry.getKey());
+                ProductDto product = products.get(entry.getKey());
+                if (product == null) {
+                    return BigDecimal.ZERO;
+                }
                 return product.price()
                     .multiply(BigDecimal.valueOf(entry.getValue()));
             })
