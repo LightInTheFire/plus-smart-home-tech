@@ -41,12 +41,8 @@ public class PaymentServiceImpl implements PaymentService {
         BigDecimal feeTotal = taxCalculator.calculateTax(productPrice);
         BigDecimal totalPayment = calculateTotalPayment(feeTotal, productPrice, deliveryPrice);
 
-        Payment payment = new Payment();
-        payment.setOrderId(order.id());
-        payment.setTotalPayment(totalPayment);
-        payment.setDeliveryTotal(deliveryPrice);
-        payment.setFeeTotal(feeTotal);
-        payment.setStatus(PaymentStatus.PENDING);
+        Payment payment = paymentMapper
+            .toPayment(order.id(), totalPayment, deliveryPrice, feeTotal, PaymentStatus.PENDING);
 
         Payment saved = paymentRepository.save(payment);
         log.info("Payment created with id: {}", saved.getId());
