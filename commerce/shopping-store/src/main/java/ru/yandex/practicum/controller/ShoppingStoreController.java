@@ -3,6 +3,8 @@ package ru.yandex.practicum.controller;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.validation.constraints.NotEmpty;
+
 import ru.yandex.practicum.service.ProductsGetRequest;
 import ru.yandex.practicum.service.ShoppingStoreService;
 import ru.yandex.practicum.store.dto.*;
@@ -80,5 +82,13 @@ public class ShoppingStoreController {
         log.info("Getting product details: {}", productId);
 
         return shoppingStoreService.getProduct(productId);
+    }
+
+    @GetMapping("/products")
+    public List<ProductDto> getProducts(@NotEmpty @RequestParam List<UUID> productIds) {
+
+        log.info("Getting products for ids: {}", productIds);
+
+        return shoppingStoreService.getProductsByIds(productIds);
     }
 }

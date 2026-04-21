@@ -102,6 +102,14 @@ public class ShoppingStoreServiceImpl implements ShoppingStoreService {
         return productMapper.toProductDto(product);
     }
 
+    @Override
+    public List<ProductDto> getProductsByIds(List<UUID> productIds) {
+        List<Product> products = productRepository.findByIdIn(productIds);
+        return products.stream()
+            .map(productMapper::toProductDto)
+            .toList();
+    }
+
     private Product getProductOrThrow(UUID productId) {
         return productRepository.findById(productId)
             .orElseThrow(() -> new ProductNotFoundException("Product with id: %s not found".formatted(productId)));

@@ -1,5 +1,5 @@
 server:
-  port: ${WAREHOUSE_SERVER_PORT:0}
+  port: 0
 
 spring:
   profiles:
