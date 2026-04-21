@@ -3,6 +3,7 @@ package ru.yandex.practicum.product;
 import java.util.Map;
 import java.util.UUID;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 
 import ru.yandex.practicum.cart.dto.ShoppingCartDto;
@@ -27,33 +28,34 @@ public class ProductController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void newProductInWarehouse(@RequestBody NewProductInWarehouseRequest request) {
+    public void newProductInWarehouse(@Valid @RequestBody NewProductInWarehouseRequest request) {
         log.info("Adding new product to warehouse: {}", request);
         productService.newProductInWarehouse(request);
     }
 
     @PostMapping("/check")
-    public BookedProductsDto checkProductQuantityEnoughForShoppingCart(@RequestBody ShoppingCartDto shoppingCartDto) {
+    public BookedProductsDto checkProductQuantityEnoughForShoppingCart(
+        @Valid @RequestBody ShoppingCartDto shoppingCartDto) {
         log.info("Checking product quantity for shopping cart: {}", shoppingCartDto);
         return productService.checkProductQuantityEnoughForShoppingCart(shoppingCartDto);
     }
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.OK)
-    public void addProductToWarehouse(@RequestBody AddProductToWarehouseRequest request) {
+    public void addProductToWarehouse(@Valid @RequestBody AddProductToWarehouseRequest request) {
         log.info("Adding product to warehouse: {}", request);
         productService.addProductToWarehouse(request);
     }
 
     @PostMapping("/assembly")
-    public BookedProductsDto assemblyProducts(@RequestBody AssemblyProductsForOrderRequest request) {
+    public BookedProductsDto assemblyProducts(@Valid @RequestBody AssemblyProductsForOrderRequest request) {
         log.info("Assembling product for order: {}", request);
         return productService.assemblyProducts(request);
     }
 
     @PostMapping("/shipped")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void shipDelivery(@RequestBody ShippedToDeliveryRequest request) {
+    public void shipDelivery(@Valid @RequestBody ShippedToDeliveryRequest request) {
         log.info("Shipping delivery for order: {}", request);
         productService.shipDelivery(request);
     }

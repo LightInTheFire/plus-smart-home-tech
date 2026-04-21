@@ -1,6 +1,10 @@
 package ru.yandex.practicum.order.controller;
 
 import java.util.List;
+import java.util.UUID;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 import ru.yandex.practicum.order.dto.CreateNewOrderRequest;
 import ru.yandex.practicum.order.dto.OrderDto;
@@ -8,12 +12,7 @@ import ru.yandex.practicum.order.service.OrderService;
 import ru.yandex.practicum.order.validation.ValidUsername;
 
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +33,21 @@ public class OrderController {
     }
 
     @PutMapping
-    public OrderDto createNewOrder(@RequestBody CreateNewOrderRequest request,
+    public OrderDto createNewOrder(@Valid @RequestBody CreateNewOrderRequest request,
         @RequestParam @ValidUsername String username) {
         log.info("Creating new order: {}, username : {}", request, username);
         return orderService.createNewOrder(request, username);
+    }
+
+    @PostMapping("/calculate/total")
+    public OrderDto calculateTotalCost(@NotNull @RequestBody UUID orderId) {
+        log.info("Calculating total cost for order: {}", orderId);
+        return orderService.calculateTotalCost(orderId);
+    }
+
+    @PostMapping("/calculate/delivery")
+    public OrderDto calculateDeliveryCost(@NotNull @RequestBody UUID orderId) {
+        log.info("Calculating delivery cost for order: {}", orderId);
+        return orderService.calculateDeliveryCost(orderId);
     }
 }

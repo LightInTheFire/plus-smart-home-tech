@@ -3,6 +3,7 @@ package ru.yandex.practicum.payment.controller;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 import ru.yandex.practicum.order.dto.OrderDto;
@@ -27,7 +28,7 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping
-    public PaymentDto createPayment(@RequestBody OrderDto order) {
+    public PaymentDto createPayment(@Valid @RequestBody OrderDto order) {
         log.info("Creating payment for order: {}", order.id());
         if (order.deliveryPrice() == null) {
             throw new NotEnoughInfoInOrderToCalculateException("No delivery price in order");
@@ -36,7 +37,7 @@ public class PaymentController {
     }
 
     @PostMapping("/totalCost")
-    public BigDecimal getTotalCost(@RequestBody OrderDto order) {
+    public BigDecimal getTotalCost(@Valid @RequestBody OrderDto order) {
         log.info("Calculating total cost for order: {}", order.id());
         if (order.products() == null || order.products()
             .isEmpty() || order.deliveryPrice() == null) {
@@ -47,13 +48,13 @@ public class PaymentController {
 
     @PostMapping("/refund")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void paymentSuccess(@RequestBody @NotNull UUID paymentId) {
+    public void paymentSuccess(@NotNull @RequestBody UUID paymentId) {
         log.info("Processing successful payment for payment id: {}", paymentId);
         paymentService.updatePaymentSuccess(paymentId);
     }
 
     @PostMapping("/productCost")
-    public BigDecimal productCost(@RequestBody OrderDto order) {
+    public BigDecimal productCost(@Valid @RequestBody OrderDto order) {
         log.info("Calculating product cost for order: {}", order.id());
         if (order.products() == null || order.products()
             .isEmpty()) {
@@ -64,7 +65,7 @@ public class PaymentController {
 
     @PostMapping("/failed")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void paymentFailed(@RequestBody @NotNull UUID paymentId) {
+    public void paymentFailed(@NotNull @RequestBody UUID paymentId) {
         log.info("Processing failed payment for payment id: {}", paymentId);
         paymentService.updatePaymentFailed(paymentId);
     }

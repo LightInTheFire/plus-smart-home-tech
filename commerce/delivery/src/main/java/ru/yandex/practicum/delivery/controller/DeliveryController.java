@@ -3,6 +3,9 @@ package ru.yandex.practicum.delivery.controller;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
 import ru.yandex.practicum.delivery.dto.DeliveryDto;
 import ru.yandex.practicum.delivery.service.DeliveryService;
 import ru.yandex.practicum.order.dto.OrderDto;
@@ -29,34 +32,34 @@ public class DeliveryController {
     private final DeliveryService deliveryService;
 
     @PutMapping
-    public DeliveryDto planDelivery(@RequestBody DeliveryDto delivery) {
+    public DeliveryDto planDelivery(@Valid @RequestBody DeliveryDto delivery) {
         log.info("Creating new delivery for order: {}", delivery.orderId());
         return deliveryService.planDelivery(delivery);
     }
 
     @PostMapping("/successful")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deliverySuccessful(@RequestBody UUID orderId) {
+    public void deliverySuccessful(@NotNull @RequestBody UUID orderId) {
         log.info("Marking delivery as successful for order: {}", orderId);
         deliveryService.deliverySuccessful(orderId);
     }
 
     @PostMapping("/picked")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deliveryPicked(@RequestBody UUID orderId) {
+    public void deliveryPicked(@NotNull @RequestBody UUID orderId) {
         log.info("Marking delivery as picked for order: {}", orderId);
         deliveryService.deliveryPicked(orderId);
     }
 
     @PostMapping("/failed")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deliveryFailed(@RequestBody UUID orderId) {
+    public void deliveryFailed(@NotNull @RequestBody UUID orderId) {
         log.info("Marking delivery as failed for order: {}", orderId);
         deliveryService.deliveryFailed(orderId);
     }
 
     @PostMapping("/cost")
-    public BigDecimal deliveryCost(@RequestBody OrderDto order) {
+    public BigDecimal deliveryCost(@NotNull @RequestBody OrderDto order) {
         log.info("Calculating delivery cost for order: {}", order.id());
         return deliveryService.deliveryCost(order);
     }
