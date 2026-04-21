@@ -138,8 +138,9 @@ public class ProductServiceImpl implements ProductService {
 
         for (OrderBooking orderBooking : orderBookings) {
             orderBooking.setDeliveryId(deliveryId);
-            orderBookingRepository.save(orderBooking);
         }
+
+        orderBookingRepository.saveAll(orderBookings);
 
         log.info("Order {} shipped to delivery with id {}", orderId, deliveryId);
     }
